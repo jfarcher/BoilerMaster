@@ -22,7 +22,7 @@ tcpport = 6379
 topic = "house/temp/outside"
 url = "http://jonarcher.info/weather-data"
 
-redthis = redis.StrictRedis(host='433board',port=6379, db=0)
+redthis = redis.StrictRedis(host=broker,port=tcpport, db=0)
 def queue_weather(file):
     outside_temp=0
     redthis.set(topic,0) 

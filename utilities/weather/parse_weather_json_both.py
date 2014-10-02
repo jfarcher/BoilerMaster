@@ -27,7 +27,7 @@ rtcpport = 6379
 topic = "house/temp/outside"
 url = "http://jonarcher.info/weather-data"
 
-redthis = redis.StrictRedis(host='433board',port=6379, db=0)
+redthis = redis.StrictRedis(host=rbroker,port=rtcpport, db=0)
 mqttc = mqtt.Client()
 mqttc.connect (mbroker, mtcpport, 60)
 mqttc.loop_start()
