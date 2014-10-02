@@ -14,6 +14,12 @@ def signal_handler(signal, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
+def set_exit_handler(func):
+    signal.signal(signal.SIGTERM, func)
+def on_exit(sig, func=None):
+    print "exit handler triggered"
+    sys.exit(1)
+
 broker = "192.168.1.3"
 tcpport = 1883
 topic = "house/temp/outside"
@@ -31,3 +37,8 @@ while True:
 	time.sleep(30)
 
 mqttc.loop_forever()
+
+if __name__ == "__main__":
+    set_exit_handler(on_exit)
+~
+
