@@ -6,6 +6,13 @@ Set of scripts and applications to build a thermostat using a Raspberry Pi
 Some of the contents of this application are derived from PiThermostat by TommyBobbins
 https://github.com/tommybobbins/PiThermostat
 
+
+Copy the config sample file to /etc/boilermaster/config.ini and edit
+
+	sudo mkdir /etc/boilermaster
+
+	sudo cp config.ini.sample /etc/boilermaster/config.ini
+
 Weather
 =======
 
@@ -27,8 +34,7 @@ or
 
 	cp utilities/weather/parse_weather.rhel /etc/init.d/
 	
-
-You will need to edit the python script to contain the relevant ip addresses and/or topics you wish to publish to
+Add the relevant details to the config file for the mqtt or redis servers on your network, and the topics you want to publish to
 
 you can now start  the script with:
 
