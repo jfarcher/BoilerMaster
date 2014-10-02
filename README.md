@@ -25,7 +25,7 @@ then copy the parse_weather file to /etc/init.d/
 
 or
 
-	cp utilities/weather/parse_weather.debian /etc/init.d/
+	cp utilities/weather/parse_weather.rhel /etc/init.d/
 	
 
 You will need to edit the python script to contain the relevant ip addresses and/or topics you wish to publish to
