@@ -21,7 +21,12 @@ or
 
 then copy the parse_weather file to /etc/init.d/
 
-	cp utilities/weather/parse_weather /etc/init.d/
+	cp utilities/weather/parse_weather.debian /etc/init.d/
+
+or
+
+	cp utilities/weather/parse_weather.debian /etc/init.d/
+	
 
 You will need to edit the python script to contain the relevant ip addresses and/or topics you wish to publish to
 
@@ -32,3 +37,7 @@ you can now start  the script with:
 and permanently enable it with:
 
 	update-rc.d -f parse_weather defaults
+
+or
+
+	chkconfig parse_weather on
