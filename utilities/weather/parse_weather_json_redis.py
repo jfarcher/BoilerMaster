@@ -6,7 +6,7 @@ import datetime
 from time import sleep
 import urllib
 import json
-
+from configparser import SafeConfigParser
 def signal_handler(signal, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
@@ -17,10 +17,17 @@ def on_exit(sig, func=None):
     print "exit handler triggered"
     sys.exit(1)
 
-broker = "192.168.1.181"
-tcpport = 6379
-topic = "house/temp/outside"
-url = "http://jonarcher.info/weather-data"
+parser = SafeConfigParser()                                                                                                                                                                                        
+parser.read('/etc/boilermaster/config.ini')                                                                                                                                                                        
+broker = parser.get('redis', 'broker')
+tcpport = parser.get('redis', 'port')
+url = parser.get('weather', 'url')                                                                                                                                                                                 
+topic = parser.get('weather', 'topic')  
+
+#broker = "192.168.1.181"
+#tcpport = 6379
+#topic = "house/temp/outside"
+#url = "http://jonarcher.info/weather-data"
 
 redthis = redis.StrictRedis(host=broker,port=tcpport, db=0)
 def queue_weather(file):

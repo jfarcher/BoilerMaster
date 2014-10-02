@@ -5,8 +5,8 @@ import datetime
 import re
 import sys, time, signal, os
 from time import sleep
-import urllib
-import json
+from ConfigParser import SafeConfigParser
+import urllib, json
 
 
 def signal_handler(signal, frame):
@@ -20,12 +20,15 @@ def on_exit(sig, func=None):
     print "exit handler triggered"
     sys.exit(1)
 
-mbroker = "192.168.1.3"
-rbroker = "192.168.1.181"
-mtcpport = 1883
-rtcpport = 6379
-topic = "house/temp/outside"
-url = "http://jonarcher.info/weather-data"
+parser = SafeConfigParser()
+parser.read('/etc/boilermaster/config.ini')
+mbroker = parser.get('mqtt', 'broker')
+mtcpport = parser.get('mqtt', 'port')
+rbroker = parser.get('redis', 'broker')
+rtcpport = parser.get('redis', 'port')
+
+url = parser.get('weather', 'url')
+topic = parser.get('weather', 'topic')  
 
 redthis = redis.StrictRedis(host=rbroker,port=rtcpport, db=0)
 mqttc = mqtt.Client()

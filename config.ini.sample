@@ -8,4 +8,4 @@ broker=
 port=6379
 [weather]
 url=http://weatherurl/json-file
-
+topic=house/temp/outside

@@ -1,13 +1,9 @@
 #!/usr/bin/python
 import paho.mqtt.client as mqtt
-import os
-import time
+import os, sys, time, signal
 import re
-import sys
-import signal
-import urllib
-import json
-
+import urllib, json
+from ConfigParser import SafeConfigParser
 
 def signal_handler(signal, frame):
     sys.exit(0)
@@ -20,10 +16,12 @@ def on_exit(sig, func=None):
     print "exit handler triggered"
     sys.exit(1)
 
-broker = "192.168.1.3"
-tcpport = 1883
-topic = "house/temp/outside"
-url = "http://jonarcher.info/weather-data"
+parser = SafeConfigParser()
+parser.read('/etc/boilermaster/config.ini')
+broker = parser.get('mqtt', 'broker')
+tcpport = parser.get('mqtt', 'port')
+url = parser.get('weather', 'url')
+topic = parser.get('weather', 'topic')
 
 mqttc = mqtt.Client()
 mqttc.connect (broker, tcpport, 60)
@@ -40,5 +38,4 @@ mqttc.loop_forever()
 
 if __name__ == "__main__":
     set_exit_handler(on_exit)
-~
 
