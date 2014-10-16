@@ -33,9 +33,12 @@ redthis = redis.StrictRedis(host=broker,port=tcpport, db=0)
 def queue_weather(file):
     outside_temp=0
     redthis.set(topic,0) 
-    response = urllib.urlopen(url)
-    data = json.loads(response.read())
-    temp = data["temperature"]
+    try:
+	response = urllib.urlopen(url)
+    	data = json.loads(response.read())
+    	temp = data["temperature"]
+    except:
+	temp = "100"
     redthis.set(topic,temp) 
      
 while True:

@@ -27,10 +27,12 @@ mqttc = mqtt.Client()
 mqttc.connect (broker, tcpport, 60)
 mqttc.loop_start()
 while True:
-
-	response = urllib.urlopen(url);
-	data = json.loads(response.read())
-	temp = data["temperature"]
+	try:
+		response = urllib.urlopen(url);
+		data = json.loads(response.read())
+		temp = data["temperature"]
+	except:
+		temp = "100"
 	mqttc.publish(topic,temp, retain=True)
 	time.sleep(30)
 

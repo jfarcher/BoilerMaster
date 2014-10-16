@@ -35,10 +35,12 @@ mqttc = mqtt.Client()
 mqttc.connect (mbroker, mtcpport, 60)
 mqttc.loop_start()
 while True:
-
-	response = urllib.urlopen(url);
-	data = json.loads(response.read())
-	temp = data["temperature"]
+	try:
+		response = urllib.urlopen(url);
+		data = json.loads(response.read())
+		temp = data["temperature"]
+	exclude:
+		temp = "100"
 	mqttc.publish(topic,temp, retain=True)
     	redthis.set(topic,temp) 
 	time.sleep(30)

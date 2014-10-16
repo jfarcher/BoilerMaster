@@ -1,0 +1,40 @@
+Weather
+=======
+
+These scripts allow the retrieval of weather data from external sources (currently only a json) and republish the temperature data retrieved to a redis or mqtt broker, or both.
+
+Installation: 
+take the desired version mqtt or redis and copy the file to /usr/local/sbin/parse_weather_json.py
+
+	cp utilities/weather/parse_weather_json_mqtt.py /usr/local/sbin/parse_weather_json.py
+or
+
+	cp utilities/weather/parse_weather_json_redis.py /usr/local/sbin/parse_weather_json.py
+
+or
+	cp utilities/weather/parse_weather_json_both.py /usr/local/sbin/parse_weather_json.py
+
+
+then copy the parse_weather file to /etc/init.d/
+
+	cp utilities/weather/parse_weather.debian /etc/init.d/
+
+or
+
+	cp utilities/weather/parse_weather.rhel /etc/init.d/
+	
+Add the relevant details to the config file for the mqtt or redis servers on your network, and the topics you want to publish to
+
+you can now start  the script with:
+
+	service parse_weather start
+
+and permanently enable it with:
+
+	update-rc.d -f parse_weather defaults
+
+or
+
+	chkconfig parse_weather on
+
+As this utility is a component of BoilerMaster it relies on a config file to exist /etc/boilermaster/config.ini which contains the URL for the json file and the relevant broker connection details. See the Boilermaster readme for more details.
