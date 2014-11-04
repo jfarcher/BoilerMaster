@@ -59,7 +59,7 @@ def send_call_boiler(on_or_off):
             redthis.expire("house/boiler/req", 300)
             redthis.set("house/boiler/4hourtimeout", "True")
             redthis.expire("house/boiler/4hourtimeout", 14400)
-            redthis.rpush("house/jobqueue", "/usr/local/bin/bgas on")
+            redthis.rpush("house/jobqueue/main", "/usr/local/bin/bgas on")
         except:
             print ("Unable to update redis")
     elif (on_or_off == "off"):
