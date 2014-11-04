@@ -32,7 +32,6 @@ topic = parser.get('weather', 'topic')
 redthis = redis.StrictRedis(host=broker,port=tcpport, db=0)
 def queue_weather(file):
     outside_temp=0
-    redthis.set(topic,0) 
     try:
 	response = urllib.urlopen(url)
     	data = json.loads(response.read())
