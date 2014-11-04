@@ -38,7 +38,7 @@ def queue_weather(file):
     	temp = data["temperature"]
     except:
 	temp = "100"
-    redthis.set(topic,temp) 
+    redthis.set(topic,temp)
      
 while True:
 	queue_weather(url)
