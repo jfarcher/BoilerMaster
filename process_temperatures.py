@@ -14,7 +14,11 @@ import redis
 #from google_calendar import google_calendar
 from caldavtemps import caldav_return
 import re
+import paho.mqtt.client as mqtt
+
 redthis = redis.StrictRedis(host='433board',port=6379, db=0, socket_timeout=3)
+mqttc = mqtt.Client()
+mqttc.connect ("192.168.1.3", "1883", 60)
 hysteresis_temp=0.5
 summer_temp = 15.0
 temp={}
@@ -56,6 +60,7 @@ def send_call_boiler(on_or_off):
     if (on_or_off == "on"):
         try:
             redthis.set("house/boiler/req", "True")
+            mqttc.publish("house/boiler/req", "True",retain=True)
             redthis.expire("house/boiler/req", 300)
             redthis.set("house/boiler/4hourtimeout", "True")
             redthis.expire("house/boiler/4hourtimeout", 14400)
@@ -65,6 +70,7 @@ def send_call_boiler(on_or_off):
     elif (on_or_off == "off"):
         try:
             redthis.set("house/boiler/req", "False")
+            mqttc.publish("house/boiler/req", "False",retain=True)
             redthis.expire("house/boiler/req", 300)
             redthis.rpush("house/jobqueue", "/usr/local/bin/bgas off")
         except:
@@ -121,6 +127,7 @@ def read_temps():
 #    else:
 #        print ("It is not summer")
     redthis.set("house/temp/calendar", calendar_temp)
+    mqttc.publish("house/temp/calendar", calendar_temp, retain=True)
     if Debug: 
         print ("Found weather %f" % weather_temp)
         print ("Found user requested %f" % userreq_temp)
@@ -142,6 +149,7 @@ def read_temps():
             print ("User Requested is not equal to calendar %f %f " % (userreq_temp, calendar_temp))
         try:
             redthis.set("house/temp/userrequested", userreq_temp)
+            mqttc.public("house/temp/userrequested", userreq_temp, retain=True)
         except:
             print ("Unable to update redis")
     if Debug:
@@ -149,7 +157,9 @@ def read_temps():
     mean_temp = calculate_weighted_mean(multiplier,temp)
     mean_external_temp = calculate_weighted_mean(external_multiplier,external_temp)
     redthis.set("house/temp/inside/weightedmean", mean_temp)
+    mqttc.publish("house/temp/inside/weightedmean", mean_temp, retain=True)
     redthis.set("house/temp/outside/weightedmean", mean_external_temp)
+    mqttc.publish("house/temp/outside/weightedmean", mean_external_temp, retain=True)
     if Debug:
         print ("Mean temperature = %f" % mean_temp)
 
