@@ -20,7 +20,7 @@ def get_calendar():
     Get the calendar.
     """
     parser = SafeConfigParser()
-    parser.read('/etc/boilermaster/config.ini')
+    parser.read('/etc/boilermaster/boilermaster.conf')
     url = parser.get('calendar', 'url')
     client = caldav.DAVClient(url)
     principal = caldav.Principal(client)
