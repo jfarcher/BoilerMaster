@@ -16,9 +16,9 @@ from caldavtemps import caldav_return
 import re
 import paho.mqtt.client as mqtt
 
-redthis = redis.StrictRedis(host='433board',port=6379, db=0, socket_timeout=3)
+redthis = redis.StrictRedis(host='thermostat1',port=6379, db=0, socket_timeout=3)
 mqttc = mqtt.Client()
-mqttc.connect ("192.168.1.3", "1883", 60)
+mqttc.connect ("127.0.0.1", "1883", 60)
 hysteresis_temp=0.5
 summer_temp = 15.0
 temp={}
@@ -64,7 +64,7 @@ def send_call_boiler(on_or_off):
             redthis.expire("house/boiler/req", 300)
             redthis.set("house/boiler/4hourtimeout", "True")
             redthis.expire("house/boiler/4hourtimeout", 14400)
-            redthis.rpush("house/jobqueue/main", "/usr/local/bin/bgas on")
+            redthis.rpush("house/jobqueue", "/usr/local/bin/bgas on")
         except:
             print ("Unable to update redis")
     elif (on_or_off == "off"):
@@ -90,7 +90,7 @@ def read_temps():
         calendar_temp=6.999
     try:
         #Read in all the previous settings
-        weather_temp=float(redthis.get("house/temp/weather"))
+        weather_temp=float(redthis.get("house/temp/weather/sensor"))
         userreq_temp=float(redthis.get("house/temp/userrequested"))
         ##### Optimal temp is the debug value we want to set the house to
         ##### if all else fails
@@ -103,11 +103,13 @@ def read_temps():
         failover_temp = 14.663
         previous_calendar_temp=calendar_temp
     (temp['A1'],multiplier['A1']) = find_sensor_data('A1') 
-#    (temp['A2'],multiplier['A2']) = find_sensor_data('A2') 
+    (temp['A2'],multiplier['A2']) = find_sensor_data('A2') 
 #    (temp['A3'],multiplier['A3']) = find_sensor_data('A3') 
-    (temp['B1'],multiplier['B1']) = find_sensor_data('B1') 
+    (temp['A4'],multiplier['A4']) = find_sensor_data('A4') 
+#    (temp['A5'],multiplier['A5']) = find_sensor_data('A5') 
+#    (temp['B1'],multiplier['B1']) = find_sensor_data('B1') 
 #    (temp['B2'],multiplier['B2']) = find_sensor_data('B2') 
-#    (temp['B3'],multiplier['B3']) = find_sensor_data('B3') 
+    (temp['B3'],multiplier['B3']) = find_sensor_data('B3') 
     (external_temp['weather'],external_multiplier['weather']) = find_sensor_data('weather')
     (external_temp['outside'],external_multiplier['outside']) = (weather_temp,5) 
     try:
