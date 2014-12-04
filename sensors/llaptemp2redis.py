@@ -16,7 +16,7 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 parser = SafeConfigParser()
-parser.read('/etc/boilermaster/config.ini')  
+parser.read('/etc/boilermaster/boilermaster.conf')  
 
 rbroker = parser.get('redis', 'broker')
 mbroker = parser.get('mqtt', 'broker')
