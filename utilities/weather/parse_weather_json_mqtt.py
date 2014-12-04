@@ -17,7 +17,7 @@ def on_exit(sig, func=None):
     sys.exit(1)
 
 parser = SafeConfigParser()
-parser.read('/etc/boilermaster/config.ini')
+parser.read('/etc/boilermaster/boilermaster.conf')
 broker = parser.get('mqtt', 'broker')
 tcpport = parser.get('mqtt', 'port')
 url = parser.get('weather', 'url')
