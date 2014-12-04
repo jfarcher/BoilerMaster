@@ -7,11 +7,11 @@ Some of the contents of this application are derived from PiThermostat by TommyB
 https://github.com/tommybobbins/PiThermostat
 
 
-Copy the config sample file to /etc/boilermaster/config.ini and edit
+Copy the config sample file to /etc/boilermaster/boilermaster.conf and edit
 
 	sudo mkdir /etc/boilermaster
 
-	sudo cp config.ini.sample /etc/boilermaster/config.ini
+	sudo cp boilermaster.conf.sample /etc/boilermaster/boilermaster.conf
 
 Weather
 =======
