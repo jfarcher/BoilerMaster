@@ -1,0 +1,11 @@
+[main]
+
+[mqtt]
+broker=
+port=1883
+[redis]
+broker=
+port=6379
+[weather]
+url=http://weatherurl/json-file
+topic=house/temp/outside
