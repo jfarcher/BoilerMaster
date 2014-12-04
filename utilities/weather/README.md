@@ -37,4 +37,4 @@ or
 
 	chkconfig parse_weather on
 
-As this utility is a component of BoilerMaster it relies on a config file to exist /etc/boilermaster/config.ini which contains the URL for the json file and the relevant broker connection details. See the Boilermaster readme for more details.
+As this utility is a component of BoilerMaster it relies on a config file to exist /etc/boilermaster/boilermaster.conf which contains the URL for the json file and the relevant broker connection details. See the Boilermaster readme for more details.
